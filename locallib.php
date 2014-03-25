@@ -1490,7 +1490,8 @@ function tracker_notify_submission($issue, &$cm, $tracker = null){
                       'DESCRIPTION' => format_string(stripslashes($issue->description)), 
                       'BY' => fullname($by),
                       'ISSUEURL' => $CFG->wwwroot."/mod/tracker/view.php?a={$tracker->id}&amp;view=view&amp;screen=viewanissue&amp;issueid={$issue->id}",
-                      'CCURL' => $CFG->wwwroot."/mod/tracker/view.php?a={$tracker->id}&amp;view=profile&amp;screen=mywatches&amp;issueid={$issue->id}&amp;what=register"
+                      'CCURL' => $CFG->wwwroot."/mod/tracker/view.php?a={$tracker->id}&amp;view=profile&amp;screen=mywatches&amp;issueid={$issue->id}&amp;what=register",
+                      'TROLOLOROLL' => "http://trololololololololololo.com"
                       );
         include_once($CFG->dirroot."/mod/tracker/mailtemplatelib.php");
         foreach($managers as $manager){

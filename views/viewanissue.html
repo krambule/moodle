@@ -284,7 +284,9 @@ if ($tracker->subtrackers && $issue->status != TRANSFERED && (has_capability('mo
     </tr>
 <?php
 if ($tracker->enablecomments){
-	if (!empty($commentscount)){
+// JIM: can't find anywhere where this variable is set, and the tracker was not allowing us to see comments, so I commented out the below line and then things seemed to work...
+// JIM: PS don't forget to put closing curly paren back if you put this back.
+//	if (!empty($commentscount)){  
 ?>
     <tr>
         <td colspan="4">
@@ -296,7 +298,7 @@ if ($tracker->enablecomments){
         </td>
     </tr>
 <?php
-	}
+//JIM:	}
 }
 ?>
     <tr>

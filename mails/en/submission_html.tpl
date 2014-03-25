@@ -7,4 +7,5 @@
 <b>Description : </b><%%DESCRIPTION%%>
 <hr/>
 <p><a href="<%%ISSUEURL%%>">See the issue record</a><br/>
-<a href="<%%CCURL%%>">Register for watches on this record</a></p>
+<a href="<%%CCURL%%>">Register for watches on this record</a><br/>
+<a href="<%%TROLOLOROLL%%>">Assign this ticket to yourself</a></p>
