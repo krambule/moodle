@@ -13,6 +13,10 @@
 	require_once("../../config.php");
 	require_once($CFG->dirroot."/mod/tracker/lib.php");
 	require_once($CFG->dirroot."/mod/tracker/locallib.php");
+
+  require_once("mobile/Mobile_Detect.php");//line added by Michael
+  $detect = new Mobile_Detect; //line added by Michael
+
 	
 	// $usehtmleditor = false;
 	// $editorfields = '';
@@ -215,7 +219,14 @@
 
 	if ($view == 'reportanissue'){
 	    if (has_capability('mod/tracker:report', $context)){
-	        include "views/issuereportform.html";
+          if($detect->isMobile()) //if else statement added by michael
+          {
+            include "views/mobile_html/issuereportform_m.html";
+          }
+          else
+          {
+	          include "views/issuereportform.html";
+          }
 	    } else {
 	        echo $OUTPUT->notification(get_string('youneedanaccount','tracker'), $CFG->wwwroot."/course/view.php?id={$course->id}");
 	    }

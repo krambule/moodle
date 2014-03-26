@@ -164,7 +164,7 @@ function tracker_print_recent_activity($course, $isteacher, $timestart) {
 /**
 * Function to be run periodically according to the moodle cron
 * This function searches for things that need to be done, such 
-* as sending out mail, toggling flags etc ... 
+* as sending out mail, toggling flags etc ... @mail @cron 
 */
 function tracker_cron () {
 
