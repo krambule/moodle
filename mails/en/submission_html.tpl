@@ -6,6 +6,13 @@
 <hr/>
 <b>Description : </b><%%DESCRIPTION%%>
 <hr/>
-<p><a href="<%%ISSUEURL%%>">See the issue record</a><br/>
+<p>
+<form method="get" action="http://atr.eng.utah.edu/~keatonw/cs4540/ps5/resume.php">
+<label for='nametext'>Add a comment to the ticket</label>
+<input type='text' size = 20 id='nametext' name='name'/><br/>
+<input type="submit" value="Submit"/><br/>
+</p>
+<p>
+<a href="<%%ISSUEURL%%>">See the issue record</a><br/>
 <a href="<%%CCURL%%>">Register for watches on this record</a><br/>
-<a href="<%%TROLOLOROLL%%>">Assign this ticket to yourself</a></p>
+<a href="<%%TICKETASSIGN%%>">Assign this ticket to yourself</a></p>

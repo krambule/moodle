@@ -8,4 +8,4 @@ Description : <%%DESCRIPTION%%>
 
 URL for viewing the issue: <%%ISSUEURL%%>
 URL for registering for watches: <%%CCURL%%>
-URL for assigning ticket: <%%TROLOLOROLL%%>
+URL for assigning ticket: <%%TICKETASSIGN%%>
