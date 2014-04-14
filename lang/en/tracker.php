@@ -357,6 +357,7 @@ $string['unsetwhentesting'] = 'Advise me when a solution is tested';
 $string['unsetwhenthrown'] = 'Advise me when is thrown';
 $string['unsetwhenwaits'] = 'Advise me when waits';
 $string['unsetwhenworks'] = 'Advise me when got working';
+$string['urgency'] = 'Issue urgency';  // BRAEDEN BODILY
 $string['urgentraiserequestcaption'] = 'A user has requested an urgent priority demand';
 $string['urgentsignal'] = 'URGENT QUERY';
 $string['view'] = 'Views';

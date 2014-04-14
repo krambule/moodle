@@ -7,9 +7,17 @@
 <b>Description : </b><%%DESCRIPTION%%>
 <hr/>
 <p>
-<form method="get" action="http://atr.eng.utah.edu/~keatonw/cs4540/ps5/resume.php">
-<label for='nametext'>Add a comment to the ticket</label>
-<input type='text' size = 20 id='nametext' name='name'/><br/>
+<form method="get" action="<%%COMMENTURL%%>">
+
+<input type='hidden' name='what' value='doaddcomment'/><br/>
+<input type='hidden' name='screen'  value='viewanissue'/><br/>
+<input type='hidden' name='issueid'  value='<%%ISSUEID%%>'/><br/>
+<input type='hidden' name='id'  value='<%%ID%%>'/><br/>
+<input type='hidden' name='commentformat'  value='1'/><br/>
+<input type='hidden' name='save'  value='Continue'/><br/>
+
+<label for='commenttext'>Add a comment to the ticket</label>
+<input type='text' size = 20 id='commenttext' name='comment'/><br/>
 <input type="submit" value="Submit"/><br/>
 </p>
 <p>

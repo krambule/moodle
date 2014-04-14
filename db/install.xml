@@ -78,7 +78,8 @@
         <FIELD NAME="timeassigned" TYPE="int" LENGTH="11" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" PREVIOUS="bywhomid" NEXT="resolution"/>
         <FIELD NAME="resolution" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="timeassigned" NEXT="resolutionformat"/>
         <FIELD NAME="resolutionformat" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="resolution" NEXT="resolutionpriority" />
-        <FIELD NAME="resolutionpriority" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="resolutionformat"/>
+        <FIELD NAME="resolutionpriority" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="resolutionformat" NEXT="urgency"/>
+		<FIELD NAME="urgency" TYPE="char" LENGTH="45" NOTNULL="false" SEQUENCE="false" PREVIOUS="resolutionpriority"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for tracker_issue"/>

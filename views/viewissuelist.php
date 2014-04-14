@@ -73,6 +73,7 @@ if (isset($searchqueries)){
             i.summary, 
             i.datereported, 
             i.reportedby, 
+			i.urgency,
             i.assignedto, 
             i.status,
             i.resolutionpriority,
@@ -95,9 +96,10 @@ if (isset($searchqueries)){
             i.summary, 
             i.datereported, 
             i.reportedby, 
+			i.urgency,
             i.assignedto, 
             i.status,
-            i.resolutionpriority,
+            i.resolutionpriority,		
             u.firstname, 
             u.lastname
     ";
@@ -151,25 +153,26 @@ $datereportedstr = get_string('datereported', 'tracker');
 $reportedbystr = get_string('reportedby', 'tracker');
 $assignedtostr = get_string('assignedto', 'tracker');
 $statusstr = get_string('status', 'tracker');
+$urgencystr = get_string('urgency', 'tracker');   // String to represent urgency header - BRAEDEN BODILY
 $watchesstr = get_string('watches', 'tracker');
 $actionstr = '';
-if ($resolved){
+if ($resolved){			// Added column header for urgency when viewing tickets - BRAEDEN BODILY
     if(!empty($tracker->parent)){
         $transferstr = get_string('transfer', 'tracker');
-        $tablecolumns = array('id', 'summary', 'datereported', 'reportedby', 'assignedto', 'status', 'watches', 'transfered', 'action');
-        $tableheaders = array("<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$reportedbystr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$watchesstr</b>", "<b>$transferstr</b>", "<b>$actionstr</b>");
+        $tablecolumns = array('id', 'summary', 'datereported', 'reportedby', 'assignedto', 'status', 'urgency', 'watches', 'transfered', 'action');
+        $tableheaders = array("<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$reportedbystr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$urgencystr</b>", "<b>$watchesstr</b>", "<b>$transferstr</b>", "<b>$actionstr</b>");
     } else {
-        $tablecolumns = array('id', 'summary', 'datereported', 'reportedby', 'assignedto', 'status', 'watches', 'action');
-        $tableheaders = array("<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$reportedbystr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$watchesstr</b>", "<b>$actionstr</b>");
+        $tablecolumns = array('id', 'summary', 'datereported', 'reportedby', 'assignedto', 'status', 'urgency', 'watches', 'action');
+        $tableheaders = array("<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$reportedbystr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$urgencystr</b>", "<b>$watchesstr</b>", "<b>$actionstr</b>");
     }
 } else {
     if(!empty($tracker->parent)){
         $transferstr = get_string('transfer', 'tracker');
-        $tablecolumns = array('resolutionpriority', 'id', 'summary', 'datereported', 'reportedby', 'assignedto', 'status', 'watches', 'transfered', 'action');
-        $tableheaders = array("<b>$prioritystr</b>", "<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$reportedbystr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$watchesstr</b>", "<b>$transferstr</b>", "<b>$actionstr</b>");
+        $tablecolumns = array('resolutionpriority', 'id', 'summary', 'datereported', 'reportedby', 'assignedto', 'status', 'urgency', 'watches', 'transfered', 'action');
+        $tableheaders = array("<b>$prioritystr</b>", "<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$reportedbystr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$urgencystr</b>", "<b>$watchesstr</b>", "<b>$transferstr</b>", "<b>$actionstr</b>");
     } else {
-        $tablecolumns = array('resolutionpriority', 'id', 'summary', 'datereported', 'reportedby', 'assignedto', 'status', 'watches', 'action');
-        $tableheaders = array("<b>$prioritystr</b>", "<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$reportedbystr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$watchesstr</b>", "<b>$actionstr</b>");
+        $tablecolumns = array('resolutionpriority', 'id', 'summary', 'datereported', 'reportedby', 'assignedto', 'status', 'urgency', 'watches', 'action');
+        $tableheaders = array("<b>$prioritystr</b>", "<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$reportedbystr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$urgencystr</b>", "<b>$watchesstr</b>", "<b>$actionstr</b>");
     }
 }
 
@@ -198,6 +201,7 @@ $table->column_class('summary', 'list_summary');
 $table->column_class('datereported', 'timelabel');
 $table->column_class('reportedby', 'list_reportedby');
 $table->column_class('assignedto', 'list_assignedto');
+$table->column_class('urgency', 'list_urgency');  // Column to display urgency for each ticket - BRAEDEN BODILY
 $table->column_class('watches', 'list_watches');
 $table->column_class('status', 'list_status');
 $table->column_class('action', 'list_action');
@@ -242,6 +246,7 @@ if (!empty($issues)){
         $datereported = date('Y/m/d h:i', $issue->datereported);
         $user = $DB->get_record('user', array('id' => $issue->reportedby));
         $reportedby = fullname($user);
+		$urgency = $issue->urgency;  //  A function to get urgency out of database - BRAEDEN BODILY
         $user = $DB->get_record('user', array('id' => $issue->assignedto));
         if (has_capability('mod/tracker:manage', $context)){ // managers can assign bugs
             $status = html_writer::select($STATUSKEYS, "status{$issue->id}", $issue->status, array('' => 'choose'), array('onchange' => "document.forms['manageform'].schanged{$issue->id}.value = 1;")). "<input type=\"hidden\" name=\"schanged{$issue->id}\" value=\"0\" />";
@@ -292,19 +297,19 @@ if (!empty($issues)){
                 $actions .= "&nbsp;<img src=\"".$OUTPUT->pix_url('tobottom_shadow', 'mod_tracker')."\" border=\"0\" />";
             }
         }
-        if ($resolved){
+        if ($resolved){  //  A column to display the urgency
             if (!empty($tracker->parent)) {
                 $transfer = ($issue->status == TRANSFERED) ? tracker_print_transfer_link($tracker, $issue) : '' ;
-                $dataset = array($issuenumber, $summary.' '.$solution, $datereported, $reportedby, $assignedto, $status, 0 + $issue->watches, $transfer, $actions);
+                $dataset = array($issuenumber, $summary.' '.$solution, $datereported, $reportedby, $assignedto, $status, $urgency, 0 + $issue->watches, $transfer, $actions);
             } else {
-                $dataset = array($issuenumber, $summary.' '.$solution, $datereported, $reportedby, $assignedto, $status, 0 + $issue->watches, $actions);
+                $dataset = array($issuenumber, $summary.' '.$solution, $datereported, $reportedby, $assignedto, $status, $urgency, 0 + $issue->watches, $actions);
             }
         } else {
             if (!empty($tracker->parent)) {
                 $transfer = ($issue->status == TRANSFERED) ? tracker_print_transfer_link($tracker, $issue) : '' ;
-                $dataset = array($maxpriority - $issue->resolutionpriority + 1, $issuenumber, $summary.' '.$solution, $datereported, $reportedby, $assignedto, $status, 0 + $issue->watches, $transfer, $actions);
+                $dataset = array($maxpriority - $issue->resolutionpriority + 1, $issuenumber, $summary.' '.$solution, $datereported, $reportedby, $assignedto, $status, $urgency, 0 + $issue->watches, $transfer, $actions);
             } else {
-                $dataset = array($maxpriority - $issue->resolutionpriority + 1, $issuenumber, $summary.' '.$solution, $datereported, $reportedby, $assignedto, $status, 0 + $issue->watches, $actions);
+                $dataset = array($maxpriority - $issue->resolutionpriority + 1, $issuenumber, $summary.' '.$solution, $datereported, $reportedby, $assignedto, $status, $urgency, 0 + $issue->watches, $actions);
             }
         }
         $table->add_data($dataset);     

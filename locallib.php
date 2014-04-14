@@ -561,6 +561,14 @@ function tracker_extractsearchparametersfrompost(){
             $fields['summary'][] = $summary;
         }
         
+		// BRAEDEN BODILY insert a variable for urgency
+		$urgency = optional_param('urgency', '', PARAM_CLEANHTML);
+		if (!empty($urgency))
+		{
+			$fields['urgency'][] = $urgency;
+		}
+		
+		
         $keys = array_keys($_POST);                         // get the key value of all the fields submitted
         $elementkeys = preg_grep('/element./' , $keys);     // filter out only the element keys
         
@@ -920,6 +928,7 @@ function tracker_submitanissue(&$tracker){
     $issue->format = addslashes(required_param('format', PARAM_CLEANHTML));
     $issue->assignedto = $tracker->defaultassignee;
     $issue->bywhomid = 0;
+	$issue->urgency = required_param('urgency', PARAM_TEXT);
     $issue->trackerid = $tracker->id;
     $issue->status = POSTED;
     $issue->reportedby = required_param('reportedby', PARAM_INT);
@@ -1491,7 +1500,11 @@ function tracker_notify_submission($issue, &$cm, $tracker = null){
                       'BY' => fullname($by),
                       'ISSUEURL' => $CFG->wwwroot."/mod/tracker/view.php?a={$tracker->id}&amp;view=view&amp;screen=viewanissue&amp;issueid={$issue->id}",
                       'CCURL' => $CFG->wwwroot."/mod/tracker/view.php?a={$tracker->id}&amp;view=profile&amp;screen=mywatches&amp;issueid={$issue->id}&amp;what=register",
-                      'TICKETASSIGN' => "http://trololololololololololo.com"//temp website until the request is figured out. KW_change
+                      
+                      'COMMENTURL' => $CFG->wwwroot."/mod/tracker/view.php",
+                      'ISSUEID' => $issue->id,
+                      'ID' => $cm->id,
+		      'TICKETASSIGN' => "http://trololololololololololo.com"//temp website until the request is figured out. KW_change
                       );
         include_once($CFG->dirroot."/mod/tracker/mailtemplatelib.php");
         foreach($managers as $manager){

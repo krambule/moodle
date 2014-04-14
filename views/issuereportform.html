@@ -66,9 +66,9 @@ if (tracker_requiresfile($tracker->id)){
 	    <tr>
         <td align="right" valign="top"><b><?php print_string('urgency', 'tracker') ?>:</b></td>
         <td align="left" colspan="3">
-            <select>
-				<option value = "urgent">Urgent</option>
+            <select name="urgency">
 				<option value = "not_urgent">Not Urgent</option>
+				<option value = "urgent">Urgent</option>
 			</select>
         </td>
     </tr>

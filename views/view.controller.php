@@ -65,6 +65,7 @@ elseif ($action == 'updateanissue'){
     $issue->status = required_param('status', PARAM_INT);
     $issue->assignedto = required_param('assignedto', PARAM_INT);
     $issue->summary = required_param('summary', PARAM_TEXT);
+	$issue->urgency = required_param('urgency', PARAM_TEXT);
     $issue->description = str_replace("'", "''", required_param('description', PARAM_CLEANHTML));
     $issue->format = required_param('format', PARAM_INT);
     $issue->datereported = required_param('datereported', PARAM_INT);
