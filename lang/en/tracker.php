@@ -312,6 +312,7 @@ $string['solution'] = 'Solution';
 $string['sortorder'] = 'Order';
 $string['standalone'] = 'Standalone tracker (top level support).';
 $string['status'] = 'Status';
+$string['submission_urgent'] = 'URGENT: A new ticket is reported in tracker [{$a}]';
 $string['submission'] = 'A new ticket is reported in tracker [{$a}]';
 $string['submitbug'] = 'Submit the ticket';
 $string['subtrackers'] = 'Subtrackers';

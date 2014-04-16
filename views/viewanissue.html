@@ -181,6 +181,13 @@ if (has_capability('mod/tracker:resolve', $context)){
         <td width="200">
             <?php echo (empty($ccs) || count(array_keys($ccs)) == 0) ? 0 : count($ccs) ?>
         </td>
+	<!-- BRAEDEN BODILY ADDING PLACE TO VIEW URGENCY WHEN DISPLAYING SINGLE TICKET VIEW -->
+    </tr>
+	    <tr>
+        <td align="right" width="200" class="tracker-issue-param"><b><?php print_string('urgency', 'tracker') ?>:</b></td>
+        <td colspan="3" width="600" align="left">
+            <?php echo format_string($issue->urgency); ?>
+        </td>
     </tr>
     <tr>
         <td align="right" width="200" class="tracker-issue-param"><b><?php print_string('summary', 'tracker') ?>:</b></td>

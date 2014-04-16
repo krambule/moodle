@@ -66,11 +66,12 @@ if (isset($searchqueries)){
            status <> ".ABANDONNED."
         ";
     }
-
+// BRAEDEN BODILY - added i.urgency in this sql query
     $sql = "
         SELECT 
             i.id, 
             i.summary, 
+			i.urgency,
             i.datereported, 
             i.assignedto, 
             i.status,
@@ -89,6 +90,7 @@ if (isset($searchqueries)){
         GROUP BY 
             i.id,
             i.summary, 
+			i.urgency,
             i.datereported, 
             i.assignedto, 
             i.status,
@@ -141,24 +143,26 @@ $datereportedstr = get_string('datereported', 'tracker');
 $assignedtostr = get_string('assignedto', 'tracker');
 $statusstr = get_string('status', 'tracker');
 $watchesstr = get_string('watches', 'tracker');
+$urgencystr = get_string('urgency', 'tracker');
 $actionstr = '';
 
+// BRAEDEN BODILY - added urgency column below
 if(!empty($tracker->parent)){
     $transferstr = get_string('transfer', 'tracker');
     if (has_capability('mod/tracker:viewpriority', $context) && !$resolved){
-        $tablecolumns = array('resolutionpriority', 'id', 'summary', 'datereported', 'assignedto', 'status', 'watches', 'transfered', 'action');
-        $tableheaders = array("<b>$prioritystr</b>", "<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$watchesstr</b>", "<b>$transferstr</b>", "<b>$actionstr</b>");
+        $tablecolumns = array('resolutionpriority', 'id', 'summary', 'datereported', 'assignedto', 'status', 'urgency', 'watches', 'transfered', 'action');
+        $tableheaders = array("<b>$prioritystr</b>", "<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$urgencystr</b>", "<b>$watchesstr</b>", "<b>$transferstr</b>", "<b>$actionstr</b>");
     } else {
-        $tablecolumns = array('id', 'summary', 'datereported', 'assignedto', 'status', 'watches', 'transfered', 'action');
-        $tableheaders = array("<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$watchesstr</b>", "<b>$transferstr</b>", "<b>$actionstr</b>");
+        $tablecolumns = array('id', 'summary', 'datereported', 'assignedto', 'status', 'urgency', 'watches', 'transfered', 'action');
+        $tableheaders = array("<b>$issuenumberstr</b>", "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$urgencystr</b>", "<b>$watchesstr</b>", "<b>$transferstr</b>", "<b>$actionstr</b>");
     }        
 } else {
     if (has_capability('mod/tracker:viewpriority', $context) && !$resolved){
-        $tablecolumns = array('resolutionpriority', 'id', 'summary', 'datereported', 'assignedto', 'status', 'watches',  'action');
-        $tableheaders = array("<b>$prioritystr</b>", '', "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$watchesstr</b>", "<b>$actionstr</b>");
+        $tablecolumns = array('resolutionpriority', 'id', 'summary', 'datereported', 'assignedto', 'urgency', 'status', 'watches',  'action');
+        $tableheaders = array("<b>$prioritystr</b>", '', "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$urgencystr</b>", "<b>$watchesstr</b>", "<b>$actionstr</b>");
     } else {
-        $tablecolumns = array('id', 'summary', 'datereported', 'assignedto', 'status', 'watches',  'action');
-        $tableheaders = array('', "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$watchesstr</b>", "<b>$actionstr</b>");
+        $tablecolumns = array('id', 'summary', 'datereported', 'assignedto', 'status', 'urgency', 'watches',  'action');
+        $tableheaders = array('', "<b>$summarystr</b>", "<b>$datereportedstr</b>", "<b>$assignedtostr</b>", "<b>$statusstr</b>", "<b>$urgencystr</b>", "<b>$watchesstr</b>", "<b>$actionstr</b>");
     }
 }
 
@@ -186,6 +190,7 @@ $table->column_class('id', 'list_issuenumber');
 $table->column_class('summary', 'list_summary');
 $table->column_class('datereported', 'timelabel');
 $table->column_class('assignedto', 'list_assignedto');
+$table->column_class('urgency', 'list_urgency');
 $table->column_class('watches', 'list_watches');
 $table->column_class('status', 'list_status');
 $table->column_class('action', 'list_action');
@@ -226,6 +231,8 @@ if (!empty($issues)){
         $issuenumber = "<a href=\"view.php?id={$cm->id}&amp;issueid={$issue->id}\">{$tracker->ticketprefix}{$issue->id}</a>";
         $summary = "<a href=\"view.php?id={$cm->id}&amp;view=view&amp;screen=viewanissue&amp;issueid={$issue->id}\">".format_string($issue->summary).'</a>';
         $datereported = date('Y/m/d h:i', $issue->datereported);
+		$urgency = $issue->urgency;
+		
         $user = $DB->get_record('user', array('id' => $issue->assignedto));
         if (has_capability('mod/tracker:manage', $context)){ // managers can assign bugs
         	$status = html_writer::select($STATUSKEYS, "status{$issue->id}", $issue->status, array('' => 'choose'), array('onchange' => "document.forms['manageform'].schanged{$issue->id}.value = 1;"));
@@ -261,20 +268,21 @@ if (!empty($issues)){
         if ($issue->resolutionpriority < $maxpriority && has_capability('mod/tracker:viewpriority', $context) && !has_capability('mod/tracker:managepriority', $context)){
             $actions .= "&nbsp;<a href=\"view.php?id={$cm->id}&amp;issueid={$issue->id}&amp;what=askraise\" title=\"".get_string('askraise', 'tracker')."\" ><img src=\"".$OUTPUT->pix_url('askraise', 'mod_tracker')."\" border=\"0\" /></a>";
         }
+		// BRAEDEN BODILY - column now displays urgency
         if (!empty($tracker->parent)){
             $transfer = ($issue->status == TRANSFERED) ? tracker_print_transfer_link($tracker, $issue) : '' ;
             if (has_capability('mod/tracker:viewpriority', $context) && !$resolved){
                 $ticketpriority = ($issue->status < RESOLVED || $issue->status == TESTING) ? $maxpriority - $issue->resolutionpriority + 1 : '' ;
-                $dataset = array($ticketpriority, $issuenumber, $summary.' '.$solution, $datereported, $assignedto, $status, 0 + $issue->watches, $transfer, $actions);
+                $dataset = array($ticketpriority, $issuenumber, $summary.' '.$solution, $datereported, $assignedto, $status, $urgency, 0 + $issue->watches, $transfer, $actions);
             } else {
-                $dataset = array($issuenumber, $summary.' '.$solution, $datereported, $assignedto, $status, 0 + $issue->watches, $transfer, $actions);
+                $dataset = array($issuenumber, $summary.' '.$solution, $datereported, $assignedto, $status, $urgency, 0 + $issue->watches, $transfer, $actions);
             }
         } else {
             if (has_capability('mod/tracker:viewpriority', $context) && !$resolved){
                 $ticketpriority = ($issue->status < RESOLVED || $issue->status == TESTING) ? $maxpriority - $issue->resolutionpriority + 1 : '' ;
-                $dataset = array($ticketpriority, $issuenumber, $summary.' '.$solution, $datereported, $assignedto, $status, 0 + $issue->watches, $actions);
+                $dataset = array($ticketpriority, $issuenumber, $summary.' '.$solution, $datereported, $assignedto, $status, $urgency, 0 + $issue->watches, $actions);
             } else {
-                $dataset = array($issuenumber, $summary.' '.$solution, $datereported, $assignedto, $status, 0 + $issue->watches, $actions);
+                $dataset = array($issuenumber, $summary.' '.$solution, $datereported, $assignedto, $status, $urgency, 0 + $issue->watches, $actions);
             }
         }
         $table->add_data($dataset);     

@@ -27,6 +27,9 @@
 * @usecase doaskraise
 */
 
+require_once("../mobile/Mobile_Detect.php");
+$detect = new Mobile_Detect;
+
 if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');    ///  It must be included from view.php in mod/tracker
 }
@@ -241,7 +244,15 @@ elseif ($action == 'updatelist'){
 /********************************* requires the add a comment form **************************/
 elseif ($action == 'addacomment'){
     $form->issueid = required_param('issueid', PARAM_INT);
-    include "views/addacomment.html";
+    if($detect->isMobile())
+    {
+      include "views/mobile_html/addacomment_m.html";
+    }
+    else
+    {
+      include "views/addacomment.html";
+    }
+   // include "views/addacomment.html";
     return -1;
 }
 /***************************************** add a comment ***********************************/

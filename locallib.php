@@ -926,9 +926,12 @@ function tracker_submitanissue(&$tracker){
     $issue->summary = required_param('summary', PARAM_TEXT);
     $issue->description = addslashes(required_param('description', PARAM_CLEANHTML));
     $issue->format = addslashes(required_param('format', PARAM_CLEANHTML));
-    $issue->assignedto = $tracker->defaultassignee;
+    $issue->assignedto = $trafrequirecker->defaultassignee;
+//JIM
+    $issue->assignedto = 1;
+// END JIm
     $issue->bywhomid = 0;
-	$issue->urgency = required_param('urgency', PARAM_TEXT);
+    $issue->urgency = required_param('urgency', PARAM_TEXT);
     $issue->trackerid = $tracker->id;
     $issue->status = POSTED;
     $issue->reportedby = required_param('reportedby', PARAM_INT);
@@ -937,7 +940,14 @@ function tracker_submitanissue(&$tracker){
     $maxpriority = $DB->get_field_select('tracker_issue', 'MAX(resolutionpriority)', " trackerid = {$tracker->id} GROUP BY trackerid ");
     $issue->resolutionpriority = $maxpriority + 1;
 
+
     $issue->id = $DB->insert_record('tracker_issue', $issue);
+    // JIM
+    //echo var_dump($issue);
+    //return;
+    // END JIM
+
+
     if ($issue->id){
         tracker_recordelements($issue);
         // if not CCed, the assignee should be
@@ -1508,11 +1518,20 @@ function tracker_notify_submission($issue, &$cm, $tracker = null){
                       );
         include_once($CFG->dirroot."/mod/tracker/mailtemplatelib.php");
         foreach($managers as $manager){
+		
+			// BRAEDEN BODILY - determine if the urgent submission subject should be sent
             $notification = tracker_compile_mail_template('submission', $vars, 'tracker', $manager->lang);
             $notification_html = tracker_compile_mail_template('submission_html', $vars, 'tracker', $manager->lang);
             if ($CFG->debugsmtp) echo "Sending Submission Mail Notification to " . fullname($manager) . '<br/>'.$notification_html;
-            email_to_user($manager, $USER, get_string('submission', 'tracker', $SITE->shortname.':'.format_string($tracker->name)), $notification, $notification_html);
-        }
+            if ($issue->urgency === "Urgent")
+			{
+				email_to_user($manager, $USER, get_string('submission_urgent', 'tracker', $SITE->shortname.':'.format_string($tracker->name)), $notification, $notification_html);
+			}			
+			else
+			{
+				email_to_user($manager, $USER, get_string('submission', 'tracker', $SITE->shortname.':'.format_string($tracker->name)), $notification, $notification_html);
+			}
+		}
     }
 }
 

@@ -14,8 +14,8 @@
 	require_once($CFG->dirroot."/mod/tracker/lib.php");
 	require_once($CFG->dirroot."/mod/tracker/locallib.php");
 
-  require_once("mobile/Mobile_Detect.php");//line added by Michael
-  $detect = new Mobile_Detect; //line added by Michael
+  require_once("mobile/Mobile_Detect.php");//line added by @michael
+  $detect = new Mobile_Detect; //line added by @michael
 
 	
 	// $usehtmleditor = false;
@@ -219,7 +219,7 @@
 
 	if ($view == 'reportanissue'){
 	    if (has_capability('mod/tracker:report', $context)){
-          if($detect->isMobile()) //if else statement added by michael
+          if($detect->isMobile()) //if else statement added by @michael
           {
             include "views/mobile_html/issuereportform_m.html";
           }
@@ -250,25 +250,57 @@
 	                    print_error ('errornoaccessallissues', 'tracker');
 	                } else {
 	                    $resolved = 0;
-	                    include "views/viewissuelist.php";
+                      if($detect->isMobile())
+                      {
+                          include "views/mobile_html/viewissuelist_m.php";
+                      }
+                      else
+                      {
+                          include "views/viewissuelist.php";
+                      }
+	                   // include "views/viewissuelist.php";
 	                } 
 	                break;
 	            case 'search': 
-	                include "views/searchform.html";
+	                //include "views/searchform.html";
+                  if($detect->isMobile()) //if else statement added by @michael
+                  {
+                     include "views/mobile_html/searchform_m.html";
+                  }
+                  else
+                  {
+	                  include "views/searchform.html";
+                  }
 	                break;
 	            case 'viewanissue' :
 	                ///If user it trying to view an issue, check to see if user has privileges to view this issue
                     if (!has_capability('mod/tracker:seeissues', $context)){
                         print_error('errornoaccessissue', 'tracker');
                     } else {
-                        include "views/viewanissue.html";
+                        //include "views/viewanissue.html";
+                        if($detect->isMobile()) //if else statement added by @michael
+                        {
+                           include "views/mobile_html/viewanissue_m.html";
+                        }
+                        else
+                        {
+	                         include "views/viewanissue.html";
+                        }
                     }
 	                break;
 	            case 'editanissue' :
                     if (!has_capability('mod/tracker:manage', $context)){
                         print_error('errornoaccessissue', 'tracker');
                     } else {
-                        include "views/editanissue.html";   
+                        //include "views/editanissue.html";   
+                        if($detect->isMobile()) //if else statement added by @michael
+                        { 
+                           include "views/mobile_html/editanissue_m.html";
+                        }
+                        else
+                        {
+	                         include "views/editanissue.html";
+                        }
                     }
 	                break;
 	        }
@@ -317,13 +349,37 @@
 	    if ($result != -1){
 	        switch($screen){
 	            case 'summary': 
-	                include "views/admin_summary.html"; 
+	                //include "views/admin_summary.html"; 
+              if($detect->isMobile()) //if else statement added by @michael
+              {
+                include "views/mobile_html/admin_summary_m.html";
+              }
+              else
+              {
+                include "views/admin_summary.html";
+              }
 	                break;
 	            case 'manageelements': 
-	                include "views/admin_manageelements.html";
+	               // include "views/admin_manageelements.html";
+              if($detect->isMobile()) //if else statement added by @michael
+              {
+                include "views/mobile_html/admin_manageelements_m.html";
+              }
+              else
+              {
+                include "views/admin_manageelements.html";
+              }
 	                break;
 	            case 'managenetwork': 
-	                include "views/admin_mnetwork.html";
+	                //include "views/admin_mnetwork.html";
+              if($detect->isMobile()) //if else statement added by @michael
+              {
+                include "views/mobile_html/admin_mnetwork_m.html";
+              }
+              else
+              {
+                include "views/admin_mnetwork.html";
+              }
 	                break;
 	        }
 	    }
@@ -336,16 +392,48 @@
 	    if ($result != -1){
 	        switch($screen){
 	            case 'myprofile' :
-	                include "views/profile.html";
+	                //include "views/profile.html";
+              if($detect->isMobile()) //if else statement added by @michael
+              {
+                include "views/mobile_html/profile_m.html";
+              }
+              else
+              {
+                include "views/profile.html";
+              }
 	                break;
 	            case 'mypreferences' :
-	                include "views/mypreferences.html";
+	               // include "views/mypreferences.html";
+              if($detect->isMobile()) //if else statement added by @michael
+              {
+                include "views/mobile_html/mypreferences_m.html";
+              }
+              else
+              {
+                include "views/mypreferences.html";
+              }
 	                break;
 	            case 'mywatches' :
-	                include "views/mywatches.html";
+	                //include "views/mywatches.html";
+              if($detect->isMobile()) //if else statement added by @michael
+              {
+                include "views/mobile_html/mywatches_m.html";
+              }
+              else
+              {
+                include "views/mywatches.html";
+              }
 	                break;
 	            case 'myqueries':
-	                include "views/myqueries.html";
+	                //include "views/myqueries.html";
+              if($detect->isMobile()) //if else statement added by @michael
+              {
+                include "views/mobile_html/myqueries_m.html";
+              }
+              else
+              {
+                include "views/myqueries.html";
+              }
 	                break;
 	        }
 	    }

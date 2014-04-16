@@ -21,6 +21,13 @@
 * @usecase saveprefs
 */
 
+// @michael 
+require_once("../mobile/Mobile_Detect.php");
+$detect = new Mobile_Detect;
+
+
+
+
 if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');    ///  It must be included from view.php in mod/tracker
 }
@@ -127,7 +134,15 @@ elseif ($action == 'editwatch'){
 	$issue = $DB->get_record('tracker_issue', array('id' => $form->issueid));
 	$form->summary = $issue->summary;
 
-	include "views/editwatch.html";
+  if($detect->isMobile())  // @michael
+  {
+    include "views/mobile_html/editwatch_m.html";
+  }
+  else
+  {
+    include "views/editwatch.html";
+  }
+	//include "views/editwatch.html";
 	return -1;
 }
 /********************************* update a watchers config for an issue **************************/
